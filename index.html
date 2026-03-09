@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>庐山行程看板</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <p class="eyebrow">Trip Board</p>
+          <h1>庐山行程看板</h1>
+          <p class="brand-copy">
+            3 月 13 日到 3 月 15 日，支持菜单切换四份行程文档。
+          </p>
+        </div>
+
+        <nav class="doc-nav" id="doc-nav" aria-label="文档导航"></nav>
+
+        <section class="sidebar-card">
+          <h2>快速提示</h2>
+          <ul>
+            <li>周五晚上到庐山站，先住山下。</li>
+            <li>周六下午主线：花径、如琴湖、锦绣谷前段。</li>
+            <li>周日上午主线：含鄱口。</li>
+            <li>返程按周日 16:11 左右的 `D3256` 预留时间。</li>
+          </ul>
+        </section>
+
+        <section class="sidebar-card muted">
+          <h2>发布说明</h2>
+          <p>
+            当前目录不是 git 仓库，网页已做成纯静态文件，可直接本地打开，也可上传到
+            Gitee Pages。
+          </p>
+        </section>
+      </aside>
+
+      <main class="main-panel">
+        <header class="hero">
+          <div>
+            <p class="eyebrow">Lushan · March 2026</p>
+            <h2 id="hero-title">行程总览</h2>
+            <p id="hero-summary" class="hero-summary"></p>
+          </div>
+          <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false">
+            菜单
+          </button>
+        </header>
+
+        <section class="stats" id="stats"></section>
+
+        <article class="document-card">
+          <div class="document-toolbar">
+            <span id="doc-tag" class="doc-tag"></span>
+            <div class="toolbar-actions">
+              <button id="copy-link" type="button">复制当前链接</button>
+            </div>
+          </div>
+          <div id="document-content" class="document-content"></div>
+        </article>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
