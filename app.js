@@ -5,6 +5,7 @@ const docs = [
     shortTitle: "总方案",
     summary: "完整行程规划，适合留底和统一执行。",
     tag: "主文档",
+    kicker: "Master Plan",
     stats: [
       ["适合场景", "留底执行"],
       ["节奏", "均衡轻松"],
@@ -143,6 +144,7 @@ const docs = [
     shortTitle: "群公告",
     summary: "更口语化，适合直接发微信群。",
     tag: "转发版本",
+    kicker: "Group Notice",
     stats: [
       ["适合场景", "群里通知"],
       ["语气", "口语直接"],
@@ -217,6 +219,7 @@ const docs = [
     shortTitle: "详细时间表",
     summary: "按小时拆解，适合领队现场控节奏。",
     tag: "执行排程",
+    kicker: "By Hour",
     stats: [
       ["适合场景", "现场执行"],
       ["颗粒度", "按小时"],
@@ -301,6 +304,7 @@ const docs = [
     shortTitle: "预算清单",
     summary: "费用、分摊方式、青年组和带娃家庭的打包建议。",
     tag: "后勤准备",
+    kicker: "Packing & Budget",
     stats: [
       ["适合场景", "出发前准备"],
       ["重点", "预算与打包"],
@@ -397,14 +401,28 @@ const docs = [
   },
 ];
 
-const nav = document.getElementById("doc-nav");
+const homeTimeline = [
+  ["周五晚", "武汉东出发", "G4061 到庐山，山下住一晚，先把第二天上山节奏留出来。"],
+  ["周六上午", "上山入住", "先寄存行李或办理入住，牯岭街附近吃饭补给。"],
+  ["周六下午", "经典西线", "花径、如琴湖、锦绣谷前段，体力好再考虑仙人洞。"],
+  ["周日上午", "含鄱口收尾", "看景拍照后中午开始下山，避免返程赶车。"],
+];
+
+const topnav = document.getElementById("topnav");
+const mobileNav = document.getElementById("mobile-nav");
+const mobileDrawer = document.getElementById("mobile-drawer");
+const menuToggle = document.getElementById("menu-toggle");
+const summaryStrip = document.getElementById("summary-strip");
+const homeTimelineEl = document.getElementById("home-timeline");
+const docEntryGrid = document.getElementById("doc-entry-grid");
+const homeView = document.getElementById("view-home");
+const docView = document.getElementById("view-doc");
 const heroTitle = document.getElementById("hero-title");
 const heroSummary = document.getElementById("hero-summary");
-const stats = document.getElementById("stats");
 const docTag = document.getElementById("doc-tag");
-const content = document.getElementById("document-content");
-const menuToggle = document.getElementById("menu-toggle");
-const sidebar = document.querySelector(".sidebar");
+const docKicker = document.getElementById("doc-kicker");
+const stats = document.getElementById("stats");
+const documentContent = document.getElementById("document-content");
 const copyLinkButton = document.getElementById("copy-link");
 
 function renderInline(text) {
@@ -476,14 +494,75 @@ function markdownToHtml(markdown) {
   return html.join("");
 }
 
-function renderNav(activeId) {
-  nav.innerHTML = docs
+function renderTopNav(activeRoute) {
+  const navItems = [
+    { id: "home", label: "主页" },
+    ...docs.map((doc) => ({ id: doc.id, label: doc.shortTitle })),
+  ];
+
+  const markup = navItems
+    .map(
+      (item) => `
+        <a class="nav-pill ${item.id === activeRoute ? "active" : ""}" href="#${item.id}" data-route-link="${item.id}">
+          ${item.label}
+        </a>
+      `
+    )
+    .join("");
+
+  topnav.innerHTML = markup;
+  mobileNav.innerHTML = markup;
+}
+
+function renderSummaryStrip() {
+  const items = [
+    ["出行规模", "7 人，年轻人为主，1 组带 4 岁孩子家庭"],
+    ["主线景点", "花径、如琴湖、锦绣谷前段、含鄱口"],
+    ["住宿策略", "山下一晚 + 山上一晚，减少折返"],
+    ["返程原则", "周日中午开始下山，优先保住 D3256"],
+  ];
+
+  summaryStrip.innerHTML = items
+    .map(
+      ([label, value]) => `
+        <article class="summary-card">
+          <span>${label}</span>
+          <strong>${value}</strong>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderHomeTimeline() {
+  homeTimelineEl.innerHTML = homeTimeline
+    .map(
+      ([phase, title, text]) => `
+        <article class="keypoint">
+          <span>${phase}</span>
+          <strong>${title}</strong>
+          <p>${text}</p>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderDocEntries() {
+  docEntryGrid.innerHTML = docs
     .map(
       (doc) => `
-        <button class="nav-button ${doc.id === activeId ? "active" : ""}" type="button" data-doc-id="${doc.id}">
-          <strong>${doc.shortTitle}</strong>
-          <span>${doc.summary}</span>
-        </button>
+        <article class="doc-entry">
+          <div>
+            <p class="eyebrow">${doc.kicker}</p>
+            <h3>${doc.title}</h3>
+          </div>
+          <p>${doc.summary}</p>
+          <div class="doc-entry-meta">
+            ${doc.stats.map(([label, value]) => `<span class="chip">${label} · ${value}</span>`).join("")}
+          </div>
+          <a class="doc-entry-link" href="#${doc.id}" data-route-link="${doc.id}">进入这部分</a>
+        </article>
       `
     )
     .join("");
@@ -502,29 +581,51 @@ function renderStats(doc) {
     .join("");
 }
 
-function renderDoc(docId) {
-  const doc = docs.find((item) => item.id === docId) || docs[0];
+function setActiveView(routeId) {
+  if (routeId === "home") {
+    homeView.classList.add("active-view");
+    docView.classList.remove("active-view");
+    document.title = "庐山行程手册";
+    return;
+  }
+
+  const doc = docs.find((item) => item.id === routeId) || docs[0];
+  homeView.classList.remove("active-view");
+  docView.classList.add("active-view");
   heroTitle.textContent = doc.title;
   heroSummary.textContent = doc.summary;
   docTag.textContent = doc.tag;
-  content.innerHTML = markdownToHtml(doc.content);
-  renderNav(doc.id);
+  docKicker.textContent = doc.kicker;
   renderStats(doc);
-  window.location.hash = doc.id;
-  document.title = `${doc.title} | 庐山行程看板`;
+  documentContent.innerHTML = markdownToHtml(doc.content);
+  document.title = `${doc.title} | 庐山行程手册`;
 }
 
-nav.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-doc-id]");
-  if (!button) return;
-  renderDoc(button.dataset.docId);
-  sidebar.classList.remove("open");
+function renderRoute(routeId) {
+  const nextRoute = routeId === "home" || docs.some((doc) => doc.id === routeId) ? routeId : "home";
+  renderTopNav(nextRoute);
+  setActiveView(nextRoute);
+  window.location.hash = nextRoute;
+}
+
+function closeDrawer() {
+  mobileDrawer.classList.remove("open");
   menuToggle.setAttribute("aria-expanded", "false");
+}
+
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("[data-route-link]");
+  if (!link) return;
+  event.preventDefault();
+  renderRoute(link.dataset.routeLink);
+  closeDrawer();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 menuToggle.addEventListener("click", () => {
-  const open = sidebar.classList.toggle("open");
-  menuToggle.setAttribute("aria-expanded", String(open));
+  const nextOpen = !mobileDrawer.classList.contains("open");
+  mobileDrawer.classList.toggle("open", nextOpen);
+  menuToggle.setAttribute("aria-expanded", String(nextOpen));
 });
 
 copyLinkButton.addEventListener("click", async () => {
@@ -533,14 +634,16 @@ copyLinkButton.addEventListener("click", async () => {
     copyLinkButton.textContent = "已复制";
     setTimeout(() => {
       copyLinkButton.textContent = "复制当前链接";
-    }, 1400);
+    }, 1200);
   } catch (error) {
     copyLinkButton.textContent = "复制失败";
     setTimeout(() => {
       copyLinkButton.textContent = "复制当前链接";
-    }, 1400);
+    }, 1200);
   }
 });
 
-const initialId = window.location.hash.replace("#", "") || docs[0].id;
-renderDoc(initialId);
+renderSummaryStrip();
+renderHomeTimeline();
+renderDocEntries();
+renderRoute(window.location.hash.replace("#", "") || "home");

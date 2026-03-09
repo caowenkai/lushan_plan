@@ -3,64 +3,148 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>庐山行程看板</title>
+    <title>庐山行程手册</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="app-shell">
-      <aside class="sidebar">
-        <div class="brand">
-          <p class="eyebrow">Trip Board</p>
-          <h1>庐山行程看板</h1>
-          <p class="brand-copy">
-            3 月 13 日到 3 月 15 日，支持菜单切换四份行程文档。
-          </p>
-        </div>
+    <div class="page-glow page-glow-left"></div>
+    <div class="page-glow page-glow-right"></div>
 
-        <nav class="doc-nav" id="doc-nav" aria-label="文档导航"></nav>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brandmark" href="#home" data-route-link="home">
+          <span class="brandmark-kicker">Lushan Plan</span>
+          <strong>庐山行程手册</strong>
+        </a>
 
-        <section class="sidebar-card">
-          <h2>快速提示</h2>
-          <ul>
-            <li>周五晚上到庐山站，先住山下。</li>
-            <li>周六下午主线：花径、如琴湖、锦绣谷前段。</li>
-            <li>周日上午主线：含鄱口。</li>
-            <li>返程按周日 16:11 左右的 `D3256` 预留时间。</li>
-          </ul>
-        </section>
+        <nav class="topnav" id="topnav" aria-label="主导航"></nav>
 
-        <section class="sidebar-card muted">
-          <h2>发布说明</h2>
-          <p>
-            当前目录不是 git 仓库，网页已做成纯静态文件，可直接本地打开，也可上传到
-            Gitee Pages。
-          </p>
-        </section>
-      </aside>
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false">
+          菜单
+        </button>
+      </header>
 
-      <main class="main-panel">
-        <header class="hero">
-          <div>
-            <p class="eyebrow">Lushan · March 2026</p>
-            <h2 id="hero-title">行程总览</h2>
-            <p id="hero-summary" class="hero-summary"></p>
-          </div>
-          <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false">
-            菜单
-          </button>
-        </header>
+      <div class="mobile-drawer" id="mobile-drawer">
+        <nav class="mobile-nav" id="mobile-nav" aria-label="移动导航"></nav>
+      </div>
 
-        <section class="stats" id="stats"></section>
+      <main class="page-main">
+        <section class="hero-panel">
+          <div class="hero-copy">
+            <p class="eyebrow">Wuhan to Lushan · 2026.03.13-03.15</p>
+            <h1>一页看完这次庐山出行</h1>
+            <p class="hero-lead">
+              以年轻人轻徒步和拍照为主，同时兼顾一组带 4 岁孩子的家庭。路线控制在经典、
+              好走、少折返的范围内。
+            </p>
 
-        <article class="document-card">
-          <div class="document-toolbar">
-            <span id="doc-tag" class="doc-tag"></span>
-            <div class="toolbar-actions">
-              <button id="copy-link" type="button">复制当前链接</button>
+            <div class="hero-actions">
+              <a class="primary-button" href="#home" data-route-link="home">查看总览</a>
+              <a class="secondary-button" href="#timeline" data-route-link="timeline">看详细时间表</a>
             </div>
           </div>
-          <div id="document-content" class="document-content"></div>
-        </article>
+
+          <div class="hero-aside">
+            <section class="mini-card">
+              <span class="mini-label">去程</span>
+              <strong>G4061</strong>
+              <p>武汉东 19:18 -> 庐山 20:54</p>
+            </section>
+            <section class="mini-card">
+              <span class="mini-label">返程</span>
+              <strong>D3256</strong>
+              <p>庐山 16:11 左右开 -> 武汉 17:49 到</p>
+            </section>
+            <section class="mini-card accent">
+              <span class="mini-label">核心原则</span>
+              <strong>轻松 + 经典 + 带娃可跟</strong>
+              <p>不把三叠泉这类高台阶路线塞进主行程。</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="summary-strip" id="summary-strip"></section>
+
+        <section class="home-view route-view active-view" id="view-home">
+          <section class="overview-grid">
+            <article class="feature-card feature-card-large">
+              <div class="feature-header">
+                <p class="eyebrow">Trip Summary</p>
+                <h2>这次怎么走最稳</h2>
+              </div>
+              <div class="feature-body">
+                <p>
+                  最推荐的执行方式是：周五晚上到庐山住山下，周六上山入住后走
+                  <code>花径 -> 如琴湖 -> 锦绣谷前段</code>，周日上午去
+                  <code>含鄱口</code>，中午开始下山返汉。
+                </p>
+                <ul>
+                  <li>年轻人有景可拍，也能轻徒步。</li>
+                  <li>带娃家庭能跟上，不用连续暴走。</li>
+                  <li>最后一天给返程留出足够缓冲。</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-header">
+                <p class="eyebrow">Stay Plan</p>
+                <h2>住宿节奏</h2>
+              </div>
+              <div class="feature-body">
+                <ul>
+                  <li>3 月 13 日住山下：全季九江庐山高铁站酒店</li>
+                  <li>3 月 14 日住山上：麗枫酒店（牯岭街附近）</li>
+                  <li>少搬运行李，周六上山后直接切到景区主线</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-header">
+                <p class="eyebrow">Route Focus</p>
+                <h2>景点取舍</h2>
+              </div>
+              <div class="feature-body">
+                <ul>
+                  <li>优先：花径、如琴湖、锦绣谷前段、含鄱口</li>
+                  <li>可选追加：仙人洞、小天池、望江亭</li>
+                  <li>本次不建议硬塞：三叠泉</li>
+                </ul>
+              </div>
+            </article>
+          </section>
+
+          <section class="timeline-preview">
+            <div class="section-heading">
+              <p class="eyebrow">Key Beats</p>
+              <h2>核心时间节点</h2>
+            </div>
+            <div class="keyline" id="home-timeline"></div>
+          </section>
+
+          <section class="doc-entry-grid" id="doc-entry-grid"></section>
+        </section>
+
+        <section class="route-view" id="view-doc">
+          <header class="document-hero">
+            <div>
+              <p class="eyebrow" id="doc-kicker">Travel Notes</p>
+              <h2 id="hero-title">行程总览</h2>
+              <p id="hero-summary" class="document-summary"></p>
+            </div>
+            <div class="document-tools">
+              <span id="doc-tag" class="doc-tag"></span>
+              <button id="copy-link" type="button">复制当前链接</button>
+            </div>
+          </header>
+
+          <section class="stats-grid" id="stats"></section>
+
+          <article class="document-card">
+            <div id="document-content" class="document-content"></div>
+          </article>
+        </section>
       </main>
     </div>
 
