@@ -408,6 +408,14 @@ const homeTimeline = [
   ["周日上午", "含鄱口收尾", "看景拍照后中午开始下山，避免返程赶车。"],
 ];
 
+const leaderChecklist = [
+  "出发前一天再核一次 G4061、D3256 和两个酒店订单。",
+  "至少 1 人统一保管车票信息、身份证件和酒店确认短信。",
+  "上山当天把厚外套、孩子备用衣物、湿巾和零食放随身包里。",
+  "周日最晚 12:30 开始下山，不要临时追加远线景点。",
+  "如果现场分组，先约好集合点和回撤时间，再各自行动。",
+];
+
 const topnav = document.getElementById("topnav");
 const mobileNav = document.getElementById("mobile-nav");
 const mobileDrawer = document.getElementById("mobile-drawer");
@@ -415,6 +423,7 @@ const menuToggle = document.getElementById("menu-toggle");
 const summaryStrip = document.getElementById("summary-strip");
 const homeTimelineEl = document.getElementById("home-timeline");
 const docEntryGrid = document.getElementById("doc-entry-grid");
+const leaderChecklistEl = document.getElementById("leader-checklist");
 const homeView = document.getElementById("view-home");
 const docView = document.getElementById("view-doc");
 const heroTitle = document.getElementById("hero-title");
@@ -424,6 +433,7 @@ const docKicker = document.getElementById("doc-kicker");
 const stats = document.getElementById("stats");
 const documentContent = document.getElementById("document-content");
 const copyLinkButton = document.getElementById("copy-link");
+const printPageButton = document.getElementById("print-page");
 
 function renderInline(text) {
   return text
@@ -568,6 +578,10 @@ function renderDocEntries() {
     .join("");
 }
 
+function renderLeaderChecklist() {
+  leaderChecklistEl.innerHTML = leaderChecklist.map((item) => `<li>${item}</li>`).join("");
+}
+
 function renderStats(doc) {
   stats.innerHTML = doc.stats
     .map(
@@ -643,7 +657,12 @@ copyLinkButton.addEventListener("click", async () => {
   }
 });
 
+printPageButton.addEventListener("click", () => {
+  window.print();
+});
+
 renderSummaryStrip();
 renderHomeTimeline();
 renderDocEntries();
+renderLeaderChecklist();
 renderRoute(window.location.hash.replace("#", "") || "home");

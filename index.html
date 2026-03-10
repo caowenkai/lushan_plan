@@ -66,6 +66,72 @@
         <section class="summary-strip" id="summary-strip"></section>
 
         <section class="home-view route-view active-view" id="view-home">
+          <section class="travel-dashboard">
+            <article class="dashboard-card map-card">
+              <div class="feature-header">
+                <p class="eyebrow">Route Map</p>
+                <h2>路线概览</h2>
+              </div>
+              <div class="route-map">
+                <div class="route-stop route-stop-origin">
+                  <span>武汉东</span>
+                  <strong>3/13 19:18 出发</strong>
+                </div>
+                <div class="route-line">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="route-stop route-stop-mid">
+                  <span>庐山站 / 山下酒店</span>
+                  <strong>首晚休整</strong>
+                </div>
+                <div class="route-line">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="route-stop route-stop-summit">
+                  <span>牯岭街 / 山上酒店</span>
+                  <strong>经典轻徒步主场</strong>
+                </div>
+                <div class="route-line">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="route-stop route-stop-return">
+                  <span>庐山站 -> 武汉</span>
+                  <strong>3/15 16:11 左右返程</strong>
+                </div>
+              </div>
+            </article>
+
+            <article class="dashboard-card weather-card">
+              <div class="feature-header">
+                <p class="eyebrow">Weather Note</p>
+                <h2>天气与穿衣提醒</h2>
+              </div>
+              <div class="weather-stack">
+                <section class="weather-chip">
+                  <span>山上体感</span>
+                  <strong>通常比山下更冷</strong>
+                  <p>3 月中旬常见低温、风大、早晚温差明显，体感和武汉不同。</p>
+                </section>
+                <section class="weather-chip">
+                  <span>建议穿法</span>
+                  <strong>分层穿衣</strong>
+                  <p>卫衣 / 抓绒 + 防风外套最稳，孩子额外带一套备用衣裤。</p>
+                </section>
+                <section class="weather-chip accent-chip">
+                  <span>出发前 48 小时</span>
+                  <strong>再看一次天气</strong>
+                  <p>如果遇到大雾或降雨，就优先保留含鄱口和牯岭街周边轻松线。</p>
+                </section>
+              </div>
+            </article>
+          </section>
+
           <section class="overview-grid">
             <article class="feature-card feature-card-large">
               <div class="feature-header">
@@ -121,6 +187,27 @@
               <h2>核心时间节点</h2>
             </div>
             <div class="keyline" id="home-timeline"></div>
+          </section>
+
+          <section class="utility-grid">
+            <article class="utility-card">
+              <div class="feature-header">
+                <p class="eyebrow">Leader Checklist</p>
+                <h2>领队现场别漏的事</h2>
+              </div>
+              <ul id="leader-checklist" class="utility-list"></ul>
+            </article>
+
+            <article class="utility-card">
+              <div class="feature-header">
+                <p class="eyebrow">Print Ready</p>
+                <h2>打印 / 导出 PDF</h2>
+              </div>
+              <p class="utility-copy">
+                这版已经补了打印样式，浏览器里直接打印会自动隐藏导航和背景装饰，保留文档主体。
+              </p>
+              <button class="print-button" id="print-page" type="button">打印当前页面</button>
+            </article>
           </section>
 
           <section class="doc-entry-grid" id="doc-entry-grid"></section>
