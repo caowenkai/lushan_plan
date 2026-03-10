@@ -186,6 +186,7 @@ button {
 .doc-entry,
 .dashboard-card,
 .utility-card,
+.recommend-card,
 .document-hero,
 .stats-grid,
 .document-card {
@@ -301,6 +302,17 @@ button {
   box-shadow: inset 0 0 0 1px rgba(255, 247, 239, 0.04);
 }
 
+.poster-photo {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(20, 38, 32, 0.08), rgba(20, 38, 32, 0.4)),
+    url("https://commons.wikimedia.org/wiki/Special:FilePath/Mount%20Lu%2016120-Lushan%20(49052352141).jpg")
+      center/cover no-repeat;
+  opacity: 0.62;
+  transform: scale(1.03);
+}
+
 .poster-sun {
   position: absolute;
   top: 54px;
@@ -354,7 +366,7 @@ button {
   position: absolute;
   left: 22px;
   right: 22px;
-  bottom: 22px;
+  bottom: 48px;
   padding: 14px 16px;
   border-radius: 18px;
   background: rgba(20, 38, 32, 0.4);
@@ -372,6 +384,19 @@ button {
   margin-top: 6px;
   font-size: 18px;
   line-height: 1.35;
+}
+
+.poster-credit {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  color: rgba(255, 247, 239, 0.72);
+  font-size: 11px;
+  z-index: 2;
+}
+
+.poster-credit a {
+  color: #fff7ef;
 }
 
 .hero-copy h1 {
@@ -704,6 +729,54 @@ button {
   color: #fff;
 }
 
+.recommend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.recommend-card {
+  padding: 22px;
+  border-radius: var(--radius-xl);
+  background: rgba(255, 252, 248, 0.92);
+}
+
+.spot-list,
+.food-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.spot-item,
+.food-item {
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 251, 247, 0.98), rgba(244, 238, 230, 0.92));
+  border: 1px solid rgba(65, 43, 24, 0.08);
+}
+
+.spot-item span,
+.food-item span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.spot-item strong,
+.food-item strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.spot-item p,
+.food-item p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
 .doc-entry {
   display: grid;
   gap: 14px;
@@ -895,6 +968,7 @@ button {
   .hero-panel,
   .travel-dashboard,
   .utility-grid,
+  .recommend-grid,
   .overview-grid,
   .doc-entry-grid,
   .keyline {
