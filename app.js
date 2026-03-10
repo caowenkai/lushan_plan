@@ -420,6 +420,8 @@ const topnav = document.getElementById("topnav");
 const mobileNav = document.getElementById("mobile-nav");
 const mobileDrawer = document.getElementById("mobile-drawer");
 const menuToggle = document.getElementById("menu-toggle");
+const posterHero = document.getElementById("poster-hero");
+const landingHero = document.getElementById("hero-panel");
 const summaryStrip = document.getElementById("summary-strip");
 const homeTimelineEl = document.getElementById("home-timeline");
 const docEntryGrid = document.getElementById("doc-entry-grid");
@@ -597,6 +599,9 @@ function renderStats(doc) {
 
 function setActiveView(routeId) {
   if (routeId === "home") {
+    posterHero.classList.remove("hidden-view");
+    landingHero.classList.remove("hidden-view");
+    summaryStrip.classList.remove("hidden-view");
     homeView.classList.add("active-view");
     docView.classList.remove("active-view");
     document.title = "庐山行程手册";
@@ -604,6 +609,9 @@ function setActiveView(routeId) {
   }
 
   const doc = docs.find((item) => item.id === routeId) || docs[0];
+  posterHero.classList.add("hidden-view");
+  landingHero.classList.add("hidden-view");
+  summaryStrip.classList.add("hidden-view");
   homeView.classList.remove("active-view");
   docView.classList.add("active-view");
   heroTitle.textContent = doc.title;
@@ -637,13 +645,25 @@ function closeDrawer() {
   menuToggle.setAttribute("aria-expanded", "false");
 }
 
+function scrollForRoute(routeId) {
+  if (routeId === "home") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    docView.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+
 document.addEventListener("click", (event) => {
   const link = event.target.closest("[data-route-link]");
   if (!link) return;
   event.preventDefault();
-  renderRoute(link.dataset.routeLink, { syncUrl: true });
+  const nextRoute = link.dataset.routeLink;
+  renderRoute(nextRoute, { syncUrl: true });
   closeDrawer();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  scrollForRoute(nextRoute);
 });
 
 window.addEventListener("hashchange", () => {
