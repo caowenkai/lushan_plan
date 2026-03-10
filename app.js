@@ -401,6 +401,14 @@ const docs = [
   },
 ];
 
+const navItems = [
+  { id: "home", label: "主页", icon: "home" },
+  { id: "overview", label: "总方案", icon: "map" },
+  { id: "announcement", label: "群公告", icon: "chat" },
+  { id: "timeline", label: "时间表", icon: "clock" },
+  { id: "budget", label: "预算", icon: "bag" },
+];
+
 const homeTimeline = [
   ["周五晚", "武汉东出发", "G4061 到庐山，山下住一晚，先把第二天上山节奏留出来。"],
   ["周六上午", "上山入住", "先寄存行李或办理入住，牯岭街附近吃饭补给。"],
@@ -418,6 +426,7 @@ const leaderChecklist = [
 
 const topnav = document.getElementById("topnav");
 const tabStrip = document.getElementById("tab-strip");
+const bottomTabbar = document.getElementById("bottom-tabbar");
 const mobileNav = document.getElementById("mobile-nav");
 const mobileDrawer = document.getElementById("mobile-drawer");
 const menuToggle = document.getElementById("menu-toggle");
@@ -507,12 +516,19 @@ function markdownToHtml(markdown) {
   return html.join("");
 }
 
-function renderTopNav(activeRoute) {
-  const navItems = [
-    { id: "home", label: "主页" },
-    ...docs.map((doc) => ({ id: doc.id, label: doc.shortTitle })),
-  ];
+function iconSvg(icon) {
+  const icons = {
+    home: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1h-4.5v-5.5h-5V21H5a1 1 0 0 1-1-1z" fill="currentColor"/></svg>',
+    map: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 4 3 6.5v13L9 17l6 2.5 6-2.5V4l-6 2.5zM9 4v13M15 6.5v13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 6h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H10l-5 4v-4H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    clock: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4.5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    bag: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 9V7a5 5 0 0 1 10 0v2M5 9h14l-1 11H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  };
 
+  return icons[icon] || icons.home;
+}
+
+function renderTopNav(activeRoute) {
   const navMarkup = navItems
     .map(
       (item) => `
@@ -533,9 +549,21 @@ function renderTopNav(activeRoute) {
     )
     .join("");
 
+  const bottomMarkup = navItems
+    .map(
+      (item) => `
+        <a class="bottom-tab ${item.id === activeRoute ? "active" : ""}" href="#${item.id}" data-route-link="${item.id}">
+          <span class="bottom-tab-icon">${iconSvg(item.icon)}</span>
+          <span class="bottom-tab-label">${item.label}</span>
+        </a>
+      `
+    )
+    .join("");
+
   topnav.innerHTML = navMarkup;
   mobileNav.innerHTML = navMarkup;
   tabStrip.innerHTML = tabMarkup;
+  bottomTabbar.innerHTML = bottomMarkup;
 }
 
 function renderSummaryStrip() {
