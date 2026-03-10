@@ -416,6 +416,93 @@ const homeTimeline = [
   ["周日上午", "含鄱口收尾", "看景拍照后中午开始下山，避免返程赶车。"],
 ];
 
+const phaseTimeline = [
+  {
+    id: "prepare",
+    label: "出发前准备",
+    title: "先把出发前 3 件事做完",
+    description: "优先确认车次、酒店、天气和上山方式，把厚外套和随身包物品先整理好。",
+    nextSteps: [
+      "确认 G4061 和 D3256 当天时刻有没有变化。",
+      "确认两个酒店订单、入住人信息和景区上山方式。",
+      "提前把外套、证件、孩子备用衣物和零食放进随身包。",
+    ],
+    start: null,
+    end: "2026-03-13T18:20:00+08:00",
+    highlightIndex: null,
+  },
+  {
+    id: "departure",
+    label: "去程途中",
+    title: "当前重点是顺利到达庐山站",
+    description: "现在以进站、乘车、到站后快速入住为主，不建议再临时调整第二天行程。",
+    nextSteps: ["到站后直接去山下酒店。", "简单吃点东西，尽量早点休息。"],
+    start: "2026-03-13T18:20:00+08:00",
+    end: "2026-03-13T20:54:00+08:00",
+    highlightIndex: 0,
+  },
+  {
+    id: "rest-night",
+    label: "山下休整",
+    title: "今晚重点是休息，不安排景点",
+    description: "到酒店后把第二天上山要带的东西单独整理出来，避免周六早上手忙脚乱。",
+    nextSteps: ["早点休息。", "把上山随身包提前收好。"],
+    start: "2026-03-13T20:54:00+08:00",
+    end: "2026-03-14T08:40:00+08:00",
+    highlightIndex: 0,
+  },
+  {
+    id: "uphill",
+    label: "上山入住",
+    title: "当前重点是上山、寄存行李、稳定节奏",
+    description: "先把人和行李带到牯岭街附近，再考虑午饭和下午第一段路线。",
+    nextSteps: ["酒店寄存行李或先办入住。", "午饭后再开始下午主线。"],
+    start: "2026-03-14T08:40:00+08:00",
+    end: "2026-03-14T13:00:00+08:00",
+    highlightIndex: 1,
+  },
+  {
+    id: "west-line",
+    label: "周六下午主线",
+    title: "现在最重要的是经典西线别走乱",
+    description: "按花径、如琴湖、锦绣谷前段推进，体力和天气允许再考虑仙人洞。",
+    nextSteps: ["带娃家庭控制连续步行时间。", "晚饭尽量回牯岭街附近解决。"],
+    start: "2026-03-14T13:00:00+08:00",
+    end: "2026-03-14T18:00:00+08:00",
+    highlightIndex: 2,
+  },
+  {
+    id: "sunday-morning",
+    label: "周日上午",
+    title: "上午看含鄱口，中午准备下山",
+    description: "这段不要贪多，目标是轻松收尾并给返程留足缓冲。",
+    nextSteps: ["上午优先含鄱口。", "最晚 12:30 开始下山返站。"],
+    start: "2026-03-15T08:30:00+08:00",
+    end: "2026-03-15T12:30:00+08:00",
+    highlightIndex: 3,
+  },
+  {
+    id: "returning",
+    label: "下山返程",
+    title: "当前重点是稳稳赶上返程",
+    description: "这段不再追加任何景点，直接把时间留给景区交通、到站和候车。",
+    nextSteps: ["14:30 前尽量到庐山站。", "按 D3256 返汉。"],
+    start: "2026-03-15T12:30:00+08:00",
+    end: "2026-03-15T17:49:00+08:00",
+    highlightIndex: 3,
+  },
+  {
+    id: "finished",
+    label: "行程结束",
+    title: "这趟庐山行程已完成",
+    description: "如果还要继续优化，可以保留这份页面作为复盘和下次路线模板。",
+    nextSteps: ["回看照片和花费。", "下次想冲三叠泉可以单独规划。"],
+    start: "2026-03-15T17:49:00+08:00",
+    end: null,
+    highlightIndex: 3,
+  },
+];
+
 const leaderChecklist = [
   "出发前一天再核一次 G4061、D3256 和两个酒店订单。",
   "至少 1 人统一保管车票信息、身份证件和酒店确认短信。",
@@ -433,6 +520,7 @@ const menuToggle = document.getElementById("menu-toggle");
 const posterHero = document.getElementById("poster-hero");
 const landingHero = document.getElementById("hero-panel");
 const summaryStrip = document.getElementById("summary-strip");
+const currentFocus = document.getElementById("current-focus");
 const homeTimelineEl = document.getElementById("home-timeline");
 const docEntryGrid = document.getElementById("doc-entry-grid");
 const leaderChecklistEl = document.getElementById("leader-checklist");
@@ -587,17 +675,60 @@ function renderSummaryStrip() {
 }
 
 function renderHomeTimeline() {
+  const phase = getCurrentPhase();
+
   homeTimelineEl.innerHTML = homeTimeline
     .map(
-      ([phase, title, text]) => `
-        <article class="keypoint">
-          <span>${phase}</span>
+      ([slot, title, text], index) => `
+        <article class="keypoint ${phase.highlightIndex === index ? "is-current" : ""} ${phase.highlightIndex !== null && phase.highlightIndex + 1 === index ? "is-next" : ""}">
+          <span>${slot}</span>
           <strong>${title}</strong>
           <p>${text}</p>
+          ${
+            phase.highlightIndex === index
+              ? '<div class="keypoint-badge">当前重点</div>'
+              : phase.highlightIndex !== null && phase.highlightIndex + 1 === index
+                ? '<div class="keypoint-badge">下一步</div>'
+                : ""
+          }
         </article>
       `
     )
     .join("");
+}
+
+function getCurrentPhase() {
+  const now = Date.now();
+
+  for (const phase of phaseTimeline) {
+    const start = phase.start ? new Date(phase.start).getTime() : -Infinity;
+    const end = phase.end ? new Date(phase.end).getTime() : Infinity;
+    if (now >= start && now < end) {
+      return phase;
+    }
+  }
+
+  return phaseTimeline[0];
+}
+
+function renderCurrentFocus() {
+  const phase = getCurrentPhase();
+
+  currentFocus.className = "current-focus ready";
+  currentFocus.innerHTML = `
+    <div class="focus-main">
+      <span class="focus-status">${phase.label}</span>
+      <h2>${phase.title}</h2>
+      <p>${phase.description}</p>
+    </div>
+    <div class="focus-side">
+      <p class="eyebrow">Next Focus</p>
+      <h3>接下来优先做这些</h3>
+      <ul>
+        ${phase.nextSteps.map((item) => `<li>${item}</li>`).join("")}
+      </ul>
+    </div>
+  `;
 }
 
 function renderDocEntries() {
@@ -748,6 +879,7 @@ printPageButton.addEventListener("click", () => {
 });
 
 renderSummaryStrip();
+renderCurrentFocus();
 renderHomeTimeline();
 renderDocEntries();
 renderLeaderChecklist();
