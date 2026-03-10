@@ -417,6 +417,7 @@ const leaderChecklist = [
 ];
 
 const topnav = document.getElementById("topnav");
+const tabStrip = document.getElementById("tab-strip");
 const mobileNav = document.getElementById("mobile-nav");
 const mobileDrawer = document.getElementById("mobile-drawer");
 const menuToggle = document.getElementById("menu-toggle");
@@ -512,7 +513,7 @@ function renderTopNav(activeRoute) {
     ...docs.map((doc) => ({ id: doc.id, label: doc.shortTitle })),
   ];
 
-  const markup = navItems
+  const navMarkup = navItems
     .map(
       (item) => `
         <a class="nav-pill ${item.id === activeRoute ? "active" : ""}" href="#${item.id}" data-route-link="${item.id}">
@@ -522,8 +523,19 @@ function renderTopNav(activeRoute) {
     )
     .join("");
 
-  topnav.innerHTML = markup;
-  mobileNav.innerHTML = markup;
+  const tabMarkup = navItems
+    .map(
+      (item) => `
+        <a class="tab-pill ${item.id === activeRoute ? "active" : ""}" href="#${item.id}" data-route-link="${item.id}">
+          ${item.label}
+        </a>
+      `
+    )
+    .join("");
+
+  topnav.innerHTML = navMarkup;
+  mobileNav.innerHTML = navMarkup;
+  tabStrip.innerHTML = tabMarkup;
 }
 
 function renderSummaryStrip() {
@@ -645,13 +657,21 @@ function closeDrawer() {
   menuToggle.setAttribute("aria-expanded", "false");
 }
 
+function syncActiveTab(routeId) {
+  const activeTab = tabStrip.querySelector(`[data-route-link="${routeId}"]`);
+  if (!activeTab) return;
+  activeTab.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+}
+
 function scrollForRoute(routeId) {
   if (routeId === "home") {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    syncActiveTab(routeId);
     return;
   }
 
   requestAnimationFrame(() => {
+    syncActiveTab(routeId);
     docView.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
