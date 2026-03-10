@@ -615,11 +615,21 @@ function setActiveView(routeId) {
   document.title = `${doc.title} | 庐山行程手册`;
 }
 
-function renderRoute(routeId) {
+function updateUrl(routeId) {
+  const nextHash = routeId === "home" ? "#home" : `#${routeId}`;
+  if (window.location.hash !== nextHash) {
+    window.history.pushState({ routeId }, "", nextHash);
+  }
+}
+
+function renderRoute(routeId, options = {}) {
+  const { syncUrl = true } = options;
   const nextRoute = routeId === "home" || docs.some((doc) => doc.id === routeId) ? routeId : "home";
   renderTopNav(nextRoute);
   setActiveView(nextRoute);
-  window.location.hash = nextRoute;
+  if (syncUrl) {
+    updateUrl(nextRoute);
+  }
 }
 
 function closeDrawer() {
@@ -631,9 +641,17 @@ document.addEventListener("click", (event) => {
   const link = event.target.closest("[data-route-link]");
   if (!link) return;
   event.preventDefault();
-  renderRoute(link.dataset.routeLink);
+  renderRoute(link.dataset.routeLink, { syncUrl: true });
   closeDrawer();
   window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+window.addEventListener("hashchange", () => {
+  renderRoute(window.location.hash.replace("#", "") || "home", { syncUrl: false });
+});
+
+window.addEventListener("popstate", () => {
+  renderRoute(window.location.hash.replace("#", "") || "home", { syncUrl: false });
 });
 
 menuToggle.addEventListener("click", () => {
@@ -665,4 +683,4 @@ renderSummaryStrip();
 renderHomeTimeline();
 renderDocEntries();
 renderLeaderChecklist();
-renderRoute(window.location.hash.replace("#", "") || "home");
+renderRoute(window.location.hash.replace("#", "") || "home", { syncUrl: false });
