@@ -179,6 +179,7 @@ button {
 }
 
 .hero-panel,
+.poster-hero,
 .summary-strip,
 .feature-card,
 .timeline-preview,
@@ -201,6 +202,176 @@ button {
   background:
     linear-gradient(135deg, rgba(255, 250, 244, 0.96), rgba(255, 246, 237, 0.88)),
     linear-gradient(155deg, rgba(47, 107, 86, 0.1), rgba(217, 121, 66, 0.08));
+}
+
+.poster-hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 22px;
+  min-height: 520px;
+  padding: 34px;
+  border-radius: 36px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.6), transparent 24%),
+    linear-gradient(135deg, rgba(27, 63, 51, 0.96), rgba(57, 112, 86, 0.92) 48%, rgba(212, 138, 82, 0.82) 100%);
+  color: #fff7ef;
+}
+
+.poster-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -8% -18% auto;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: rgba(255, 240, 220, 0.08);
+  filter: blur(8px);
+}
+
+.poster-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.poster-hero .eyebrow {
+  color: rgba(255, 247, 239, 0.78);
+}
+
+.poster-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.poster-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 247, 239, 0.12);
+  border: 1px solid rgba(255, 247, 239, 0.2);
+  color: #fff7ef;
+  font-size: 12px;
+}
+
+.poster-copy h1 {
+  margin: 18px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(78px, 13vw, 148px);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+}
+
+.poster-subtitle {
+  margin: 14px 0 0;
+  font-size: clamp(20px, 2.4vw, 32px);
+  line-height: 1.3;
+}
+
+.poster-text {
+  max-width: 640px;
+  margin: 18px 0 0;
+  color: rgba(255, 247, 239, 0.84);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.poster-visual {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-items: center;
+}
+
+.poster-frame {
+  position: relative;
+  min-height: 430px;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 247, 239, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 209, 164, 0.95) 0%, rgba(242, 159, 98, 0.82) 22%, rgba(135, 178, 171, 0.7) 58%, rgba(33, 64, 54, 0.92) 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 247, 239, 0.04);
+}
+
+.poster-sun {
+  position: absolute;
+  top: 54px;
+  right: 58px;
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 247, 218, 0.98), rgba(255, 219, 167, 0.84) 58%, rgba(255, 219, 167, 0.16) 72%, transparent 74%);
+}
+
+.poster-ridge {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  border-radius: 50% 50% 0 0;
+}
+
+.ridge-back {
+  bottom: 128px;
+  height: 190px;
+  background: linear-gradient(180deg, rgba(101, 142, 126, 0.78), rgba(59, 95, 81, 0.94));
+  clip-path: polygon(0 88%, 12% 72%, 24% 76%, 40% 56%, 54% 66%, 66% 42%, 80% 55%, 100% 28%, 100% 100%, 0 100%);
+}
+
+.ridge-mid {
+  bottom: 58px;
+  height: 220px;
+  background: linear-gradient(180deg, rgba(56, 100, 83, 0.9), rgba(32, 60, 51, 0.98));
+  clip-path: polygon(0 82%, 11% 66%, 27% 71%, 40% 48%, 53% 62%, 67% 39%, 80% 51%, 100% 26%, 100% 100%, 0 100%);
+}
+
+.ridge-front {
+  bottom: -16px;
+  height: 180px;
+  background: linear-gradient(180deg, rgba(27, 63, 51, 0.95), rgba(18, 42, 35, 1));
+  clip-path: polygon(0 64%, 16% 56%, 31% 68%, 47% 44%, 62% 58%, 81% 38%, 100% 55%, 100% 100%, 0 100%);
+}
+
+.poster-mist {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 100px;
+  height: 88px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 247, 239, 0.34), rgba(255, 247, 239, 0.06) 62%, transparent 74%);
+  filter: blur(8px);
+}
+
+.poster-caption {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 22px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(20, 38, 32, 0.4);
+  backdrop-filter: blur(12px);
+}
+
+.poster-caption span {
+  display: block;
+  color: rgba(255, 247, 239, 0.72);
+  font-size: 12px;
+}
+
+.poster-caption strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 18px;
+  line-height: 1.35;
 }
 
 .hero-copy h1 {
@@ -720,6 +891,7 @@ button {
 }
 
 @media (max-width: 1080px) {
+  .poster-hero,
   .hero-panel,
   .travel-dashboard,
   .utility-grid,
@@ -753,6 +925,7 @@ button {
   }
 
   .hero-panel,
+  .poster-hero,
   .document-hero {
     grid-template-columns: 1fr;
     display: grid;
@@ -785,6 +958,28 @@ button {
 
   .brandmark strong {
     font-size: 16px;
+  }
+
+  .poster-hero {
+    min-height: 0;
+    padding: 20px;
+    border-radius: 28px;
+  }
+
+  .poster-copy h1 {
+    font-size: 64px;
+  }
+
+  .poster-subtitle {
+    font-size: 20px;
+  }
+
+  .poster-text {
+    font-size: 15px;
+  }
+
+  .poster-frame {
+    min-height: 300px;
   }
 
   .hero-panel,
