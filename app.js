@@ -530,6 +530,7 @@ const heroTitle = document.getElementById("hero-title");
 const heroSummary = document.getElementById("hero-summary");
 const docTag = document.getElementById("doc-tag");
 const docKicker = document.getElementById("doc-kicker");
+const docFocus = document.getElementById("doc-focus");
 const stats = document.getElementById("stats");
 const documentContent = document.getElementById("document-content");
 const copyLinkButton = document.getElementById("copy-link");
@@ -617,10 +618,12 @@ function iconSvg(icon) {
 }
 
 function renderTopNav(activeRoute) {
+  const hotTabIds = getDateHotTabIds();
+
   const navMarkup = navItems
     .map(
       (item) => `
-        <a class="nav-pill ${item.id === activeRoute ? "active" : ""}" href="#${item.id}" data-route-link="${item.id}">
+        <a class="nav-pill ${item.id === activeRoute ? "active" : ""} ${hotTabIds.has(item.id) ? "is-date-hot" : ""}" href="#${item.id}" data-route-link="${item.id}">
           ${item.label}
         </a>
       `
@@ -630,7 +633,7 @@ function renderTopNav(activeRoute) {
   const tabMarkup = navItems
     .map(
       (item) => `
-        <a class="tab-pill ${item.id === activeRoute ? "active" : ""}" href="#${item.id}" data-route-link="${item.id}">
+        <a class="tab-pill ${item.id === activeRoute ? "active" : ""} ${hotTabIds.has(item.id) ? "is-date-hot" : ""}" href="#${item.id}" data-route-link="${item.id}">
           ${item.label}
         </a>
       `
@@ -640,7 +643,7 @@ function renderTopNav(activeRoute) {
   const bottomMarkup = navItems
     .map(
       (item) => `
-        <a class="bottom-tab ${item.id === activeRoute ? "active" : ""}" href="#${item.id}" data-route-link="${item.id}">
+        <a class="bottom-tab ${item.id === activeRoute ? "active" : ""} ${hotTabIds.has(item.id) ? "is-date-hot" : ""}" href="#${item.id}" data-route-link="${item.id}">
           <span class="bottom-tab-icon">${iconSvg(item.icon)}</span>
           <span class="bottom-tab-label">${item.label}</span>
         </a>
@@ -711,6 +714,18 @@ function getCurrentPhase() {
   return phaseTimeline[0];
 }
 
+function getDateHotTabIds() {
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const date = now.getDate();
+
+  if (month !== 3) return new Set();
+  if (date === 13) return new Set(["announcement", "timeline"]);
+  if (date === 14) return new Set(["overview", "timeline"]);
+  if (date === 15) return new Set(["timeline", "budget"]);
+  return new Set();
+}
+
 function renderCurrentFocus() {
   const phase = getCurrentPhase();
 
@@ -724,6 +739,25 @@ function renderCurrentFocus() {
     <div class="focus-side">
       <p class="eyebrow">Next Focus</p>
       <h3>接下来优先做这些</h3>
+      <ul>
+        ${phase.nextSteps.map((item) => `<li>${item}</li>`).join("")}
+      </ul>
+    </div>
+  `;
+}
+
+function renderDocFocus() {
+  const phase = getCurrentPhase();
+  docFocus.className = "doc-focus ready";
+  docFocus.innerHTML = `
+    <div class="doc-focus-main">
+      <span class="focus-status">${phase.label}</span>
+      <h3>${phase.title}</h3>
+      <p>${phase.description}</p>
+    </div>
+    <div class="doc-focus-side">
+      <p class="eyebrow">Immediate Next</p>
+      <h4>接下来最重要的事</h4>
       <ul>
         ${phase.nextSteps.map((item) => `<li>${item}</li>`).join("")}
       </ul>
@@ -785,6 +819,7 @@ function setActiveView(routeId) {
   summaryStrip.classList.add("hidden-view");
   homeView.classList.remove("active-view");
   docView.classList.add("active-view");
+  renderDocFocus();
   heroTitle.textContent = doc.title;
   heroSummary.textContent = doc.summary;
   docTag.textContent = doc.tag;

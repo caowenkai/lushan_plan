@@ -246,6 +246,22 @@ button {
   box-shadow: 0 10px 20px rgba(31, 74, 61, 0.2);
 }
 
+.nav-pill.is-date-hot,
+.tab-pill.is-date-hot {
+  border-color: rgba(217, 121, 66, 0.22);
+  color: #b5531f;
+  background: rgba(255, 244, 234, 0.72);
+}
+
+.bottom-tab.is-date-hot {
+  color: #b5531f;
+}
+
+.bottom-tab.is-date-hot .bottom-tab-icon {
+  background: rgba(255, 241, 228, 0.88);
+  border-color: rgba(217, 121, 66, 0.18);
+}
+
 .bottom-tab-label {
   font-size: 11px;
   line-height: 1.1;
@@ -293,6 +309,7 @@ button {
 .utility-card,
 .recommend-card,
 .document-hero,
+.doc-focus,
 .stats-grid,
 .document-card {
   border: 1px solid var(--line);
@@ -630,6 +647,48 @@ button {
 .current-focus.ready {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
+}
+
+.doc-focus {
+  display: none;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: var(--radius-xl);
+  background: rgba(255, 248, 242, 0.96);
+}
+
+.doc-focus.ready {
+  display: grid;
+  grid-template-columns: 1fr 0.9fr;
+}
+
+.doc-focus-main h3,
+.doc-focus-side h4 {
+  margin: 8px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.15;
+}
+
+.doc-focus-main h3 {
+  font-size: 28px;
+}
+
+.doc-focus-main p,
+.doc-focus-side li {
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.doc-focus-side {
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(65, 43, 24, 0.08);
+  background: rgba(255, 252, 248, 0.86);
+}
+
+.doc-focus-side ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
 }
 
 .focus-main h2,
@@ -1186,6 +1245,7 @@ button {
   .poster-hero,
   .hero-panel,
   .current-focus.ready,
+  .doc-focus.ready,
   .travel-dashboard,
   .utility-grid,
   .recommend-grid,
@@ -1357,6 +1417,10 @@ button {
   .summary-strip,
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+
+  .doc-focus-main h3 {
+    font-size: 24px;
   }
 
   .feature-header h2,
